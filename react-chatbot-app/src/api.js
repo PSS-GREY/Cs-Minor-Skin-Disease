@@ -1,6 +1,7 @@
  // api.js
 export async function askGemini(query) {
-  const API_KEY = "AIzaSyA2d0fdCWtC0Fw6-flZD7goo8Mu_enBoe8"; // replace with real Gemini API key
+  const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+ // replace with real Gemini API key
   const MODEL = "gemini-1.5-flash-latest"; // try flash first (cheaper & faster)
 
   const res = await fetch(
@@ -28,4 +29,5 @@ export async function askGemini(query) {
 
   return "⚠️ No response from Gemini.";
 }
+
 
