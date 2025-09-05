@@ -1,22 +1,31 @@
-// src/api.js
-
-// Function to call our backend API instead of exposing Gemini API key
+ // api.js
 export async function askGemini(query) {
-  try {
-    const res = await fetch("/api/ask", {
+  const API_KEY = "AIzaSyA2d0fdCWtC0Fw6-flZD7goo8Mu_enBoe8"; // replace with real Gemini API key
+  const MODEL = "gemini-1.5-flash-latest"; // try flash first (cheaper & faster)
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`,
+    {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch response from backend");
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: query }] }],
+      }),
     }
+  );
 
-    const data = await res.json();
-    return data.reply || "⚠️ No response from Gemini.";
-  } catch (err) {
-    console.error("API error:", err);
-    return "⚠️ Error fetching response from server.";
+  const data = await res.json();
+  console.log("Gemini raw response:", data);
+
+  // Extract response safely
+  if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+    return data.candidates[0].content.parts[0].text;
   }
+
+  if (data?.promptFeedback?.blockReason) {
+    return `⚠️ Blocked: ${data.promptFeedback.blockReason}`;
+  }
+
+  return "⚠️ No response from Gemini.";
 }
+
