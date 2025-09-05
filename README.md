@@ -1,2 +1,4 @@
-# Cs-Minor-Skin-Disease
-Minor Project S7 CSE 
+# SKIN_DISEASE
+# Skindisease
+# Skindisease
+# Csmin
