@@ -1,7 +1,7 @@
  // api.js
 export async function askGemini(query) {
   const API_KEY = "AIzaSyALYFkkMqnY0whnqAbNeyfDe0H0Q6dt8ZI"; // replace with real Gemini API key
-  const MODEL = "gemini-1.5-flash-latest"; // try flash first (cheaper & faster)
+  const MODEL = "models/gemini-1.5-flash-latest"; // try flash first (cheaper & faster)
 
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`,
